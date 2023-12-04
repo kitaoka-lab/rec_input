@@ -13,6 +13,7 @@ RATE = 48000
 CHUNK = 1024
 RECORD_SECONDS = 5
 OUTPUT_FILENAME = "output.wav"
+INPUT_DEVICE = "MacBook Proのマイク"
 
 # pyaudio #########################################################################
 audio = pyaudio.PyAudio()
@@ -21,16 +22,16 @@ audio = pyaudio.PyAudio()
 device_id = None
 for i in range(audio.get_device_count()):
     info = audio.get_device_info_by_index(i)
-    if 'Sennheiser USB headset' in info['name']:
+    if INPUT_DEVICE in info['name']:
         device_id = info['index']
         break
 
 # Senmheiser USB headset が見つからなかったら終了
 if device_id is None:
-    print("Sennheiser USB headset が見つかりませんでした。")
+    print(f"{INPUT_DEVICE} が見つかりませんでした。")
     exit()
 
-print(f"[Sennheiser USB headset] index:{device_id}")
+print(f"[{INPUT_DEVICE}] index:{device_id}")
 
 # 見つかったデバイスIDを使用して、ストリームを開く ###############################
 stream = audio.open(format=FORMAT, channels=CHANNELS,
